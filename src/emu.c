@@ -28,7 +28,7 @@ void delay(u32 ms) {
 
 int emulator_run(int argc, char **argv) {
     
-    printf("Hello world from GB emulator\n");
+    printf("Hello world from GB emulator!!!\n");
     
     if(argc < 2)
     {
@@ -42,5 +42,40 @@ int emulator_run(int argc, char **argv) {
         printf("Failed to load ROM title: %s\n",argv[1]);
         return -2;
     }
+
+    printf("Cart loaded\n");
+    // initilization
+    SDL_Init(SDL_INIT_VIDEO);
+    printf("SDL Initilized\n");
+    TTF_Init();
+    printf("TTF Initilized\n");
+
+    cpu_init();
+    
+    ctx.isRunning = true;
+    ctx.isPaused = false;
+    ctx.ticks = 0;
+
+    while (ctx.isRunning)
+    {
+        if(ctx.isPaused)
+        {
+            delay(10);
+            continue;
+        }
+        
+        if(!cpu_step())
+        {
+            printf("CPU Stopped\n");
+            return -3;
+        }
+        ctx.ticks++;
+
+    }
     return 0;
+}
+
+void emu_cycles(int cpu_cycles)
+{
+    //NO_IMPL;
 }
