@@ -26,15 +26,24 @@ typedef struct
     u16 mem_dest;
     bool dest_is_mem;
     u8 cur_opcode;
-
+    instruction* current_instructon;
     bool isHalted;
     bool isSteppingMode;
-    instruction* current_instructon;
+    bool int_master_enable;
+    
 } cpu_context;
 
 
 void cpu_init();
 bool cpu_step();
 
+typedef void (* IN_PROC)(cpu_context*);
+
+IN_PROC inst_get_processor(in_type type);
+
+u16 cpu_read_reg(reg_type rt);
+
+#define CPU_FLAG_Z BIT(ctx->regs.f, 7)
+#define CPU_FLAG_C BIT(ctx->regs.f, 4)
 
 u16 cpu_read_reg(reg_type rt);
