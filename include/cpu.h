@@ -47,3 +47,4 @@ u16 cpu_read_reg(reg_type rt);
 #define CPU_FLAG_C BIT(ctx->regs.f, 4)
 
 u16 cpu_read_reg(reg_type rt);
+void cpu_set_reg(reg_type rt, u16 val);
