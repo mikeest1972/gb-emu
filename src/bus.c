@@ -21,7 +21,7 @@ u8 bus_read(u16 address)
         // rom memory only
         return cart_read(address);
     }
-
+    printf("bus_read(%04X)\n",address);
     NO_IMPL;
 }
 
@@ -31,5 +31,22 @@ void bus_write(u16 address, u8 value)
     {
         cart_write(address,value);
     }
+    printf("bus_write(%04X)\n",address);
     NO_IMPL;
+}
+
+// 16 bit versions
+
+u16 bus_read16(u16 address)
+{
+    u16 low = bus_read(address);
+    u16 high = bus_read(address+1);
+
+    return low | (high << 8);
+}
+
+void bus_write16(u16 address, u16 value)
+{
+    bus_write(address+1, (value >> 8) & 0xFF);
+    bus_write(address, value & 0xFF);
 }

@@ -3,7 +3,7 @@
 #include <emu.h>
 
 
-static cpu_context ctx;
+extern cpu_context ctx;
 
 void fetch_data()
 {

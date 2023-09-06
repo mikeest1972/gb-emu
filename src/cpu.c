@@ -3,6 +3,10 @@
 #include <emu.h>
 cpu_context ctx = {0};
 
+
+
+void fetch_data();
+
 void cpu_init()
 {
     ctx.regs.pc = 0x100;
