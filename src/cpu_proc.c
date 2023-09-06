@@ -55,6 +55,9 @@ static void proc_ld(cpu_context* ctx)
     cpu_set_reg(ctx->current_instructon->reg_1,ctx->fetched_data);
 }
 
+
+
+
 static bool check_cond(cpu_context* ctx)
 {
     bool z = CPU_FLAG_Z;
@@ -92,6 +95,21 @@ static void proc_di(cpu_context* ctx)
 }
 
 
+static void proc_ldh(cpu_context* ctx)
+{
+    if(ctx->current_instructon->reg_1 == RT_A)
+    {
+        cpu_set_reg(ctx->current_instructon->reg_1, bus_read(0xFF00 | ctx->fetched_data));
+
+    }
+    else
+    {
+        bus_write(0xFF00 | ctx->fetched_data, ctx->regs.a);
+
+    }
+
+    emu_cycles(1);
+}
 
 
 
@@ -106,6 +124,7 @@ static IN_PROC processors[] =
     [IN_NONE] = proc_none,
     [IN_NOP] = proc_nop,
     [IN_LD] = proc_ld,
+    [IN_LDH] = proc_ldh,
     [IN_JP] = proc_jp,
     [IN_DI] = proc_di,
     [IN_XOR] = proc_xor,

@@ -48,14 +48,19 @@ bool cpu_step()
         u16 pc = ctx.regs.pc;
         fetch_instruction();
         fetch_data();
-         printf("%04X: %-7s (%02X %02X %02X) A: %02X B: %02X C: %02X \n",
+         printf("%04X: %-7s (%02X %02X %02X) A: 0x%02X BC: 0x%02X%02X DE: 0x%02X%02X HL: %02X%02X  \n",
         pc, 
         inst_name(ctx.current_instructon->type),
+        ctx.cur_opcode,
         bus_read(pc+1),
         bus_read(pc+2),
         ctx.regs.a,
         ctx.regs.b,
-        ctx.regs.c
+        ctx.regs.c,
+        ctx.regs.d,
+        ctx.regs.e,
+        ctx.regs.h,
+        ctx.regs.l
         );
        
         if(ctx.current_instructon == NULL)
@@ -66,4 +71,13 @@ bool cpu_step()
         excecute();
     }
     return true;
+}
+
+u8 cpu_get_ie_register()
+{
+    return ctx.ie_register;
+}
+void cpu_set_ie_register(u8 n)
+{
+    ctx.ie_register = n;
 }
